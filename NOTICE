@@ -1,0 +1,38 @@
+marmalade-stt-engines
+
+Each file in this repository's releases keeps its own license. This file
+gives the attribution and the changes for each one.
+
+------------------------------------------------------------------------
+
+Parakeet Ultra, int8 ONNX (release v1)
+
+  parakeet-ultra-encoder.int8.onnx
+  parakeet-ultra-decoder.int8.onnx
+  parakeet-ultra-joiner.int8.onnx
+  parakeet-ultra-tokens.txt
+
+Parakeet Ultra was created by Moondream (M87 Labs, Inc.):
+https://huggingface.co/moondream/parakeet-ultra (commit 73175eb7aeb0d82f1e2a6b53b3aabc10a90bcd0b).
+It is a post-trained version of NVIDIA's parakeet-tdt-0.6b-v3:
+https://huggingface.co/nvidia/parakeet-tdt-0.6b-v3 (commit 541d1f99c6b0c3cd0b11a95167540bb8edefd82b).
+No copyright notice is supplied with either model.
+
+License: Creative Commons Attribution 4.0 International (CC BY 4.0).
+https://creativecommons.org/licenses/by/4.0/legalcode
+The full legal code is in LICENSES/CC-BY-4.0.txt.
+
+Modified. Moondream post-trained NVIDIA's model. For these files,
+Moondream's weights were converted to ONNX for sherpa-onnx:
+  - NVIDIA's v3 checkpoint supplied the model graph, the preprocessor
+    (including the mel filterbank and window) and the tokenizer. All of
+    its learned weights were replaced with Moondream's.
+  - Only the transducer (encoder, decoder, joiner) was exported. The
+    voice-activity head in Moondream's checkpoint (the vad_head tensors)
+    was dropped.
+  - The weights were quantized to int8 with ONNX Runtime.
+  - parakeet-ultra-tokens.txt is the v3 tokenizer's vocabulary, unchanged.
+The conversion involved no retraining or fine-tuning.
+
+Provided as-is, without warranties of any kind. See Section 5 of the
+license.
