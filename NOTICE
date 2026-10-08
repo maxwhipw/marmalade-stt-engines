@@ -3,6 +3,11 @@ marmalade-stt-engines
 Each file in this repository's releases keeps its own license. This file
 gives the attribution and the changes for each one.
 
+Releases v2 to v8 re-host third-party files unchanged: each asset is
+byte-identical to the file named as its source, with the same SHA-256.
+The changes listed for them were made upstream, by the project that
+exported the model, not here.
+
 ------------------------------------------------------------------------
 
 Parakeet Ultra, int8 ONNX (release v1)
@@ -36,3 +41,182 @@ The conversion involved no retraining or fine-tuning.
 
 Provided as-is, without warranties of any kind. See Section 5 of the
 license.
+
+------------------------------------------------------------------------
+
+Parakeet TDT_CTC 110M (English), int8 ONNX (release v2)
+
+  parakeet-tdt-110m-en-encoder.int8.onnx
+  parakeet-tdt-110m-en-decoder.int8.onnx
+  parakeet-tdt-110m-en-joiner.int8.onnx
+  parakeet-tdt-110m-en-tokens.txt
+
+parakeet-tdt_ctc-110m was created by NVIDIA NeMo and Suno.ai:
+https://huggingface.co/nvidia/parakeet-tdt_ctc-110m
+No copyright notice is supplied with the model.
+
+License: Creative Commons Attribution 4.0 International (CC BY 4.0).
+https://creativecommons.org/licenses/by/4.0/legalcode
+The full legal code is in LICENSES/CC-BY-4.0.txt.
+
+Modified, by the k2-fsa / sherpa-onnx project: the NeMo checkpoint was
+exported to ONNX, keeping only the transducer (TDT) branch, and the
+weights were quantized to int8, without retraining. Source: the files of
+sherpa-onnx-nemo-parakeet_tdt_transducer_110m-en-36000-int8.tar.bz2
+(SHA-256 f628312e9fdf8686374cb01a69425c41732529d540860311f16f37cbc32cfe9b)
+in https://github.com/k2-fsa/sherpa-onnx/releases/tag/asr-models,
+unchanged, taken from the byte-identical copy at
+https://huggingface.co/punitd/sherpa-onnx-nemo-parakeet_tdt_transducer_110m-en-36000-int8
+(commit 66a4fa70643dc7ce25c9b38b2f87e1b35ddad33d).
+
+Provided as-is, without warranties of any kind. See Section 5 of the
+license.
+
+------------------------------------------------------------------------
+
+Parakeet TDT_CTC 0.6B ja (Japanese), int8 ONNX (release v3)
+
+  parakeet-ja-model.int8.onnx
+  parakeet-ja-tokens.txt
+
+parakeet-tdt_ctc-0.6b-ja was created by NVIDIA:
+https://huggingface.co/nvidia/parakeet-tdt_ctc-0.6b-ja
+No copyright notice is supplied with the model.
+
+License: Creative Commons Attribution 4.0 International (CC BY 4.0).
+https://creativecommons.org/licenses/by/4.0/legalcode
+The full legal code is in LICENSES/CC-BY-4.0.txt.
+
+Modified, by the k2-fsa / sherpa-onnx project: the model's CTC branch
+was exported to ONNX (the TDT branch is not exported) and the weights
+were quantized to int8, without retraining. Source:
+https://huggingface.co/csukuangfj/sherpa-onnx-nemo-parakeet-tdt_ctc-0.6b-ja-35000-int8
+(commit bef18eb066808c90bd0f5df5be685767b0732de8), unchanged.
+
+Provided as-is, without warranties of any kind. See Section 5 of the
+license.
+
+------------------------------------------------------------------------
+
+Canary 180M Flash, int8 ONNX (release v4)
+
+  canary-180m-flash-encoder.int8.onnx
+  canary-180m-flash-decoder.int8.onnx
+  canary-180m-flash-tokens.txt
+
+canary-180m-flash was created by NVIDIA:
+https://huggingface.co/nvidia/canary-180m-flash
+No copyright notice is supplied with the model.
+
+License: Creative Commons Attribution 4.0 International (CC BY 4.0).
+https://creativecommons.org/licenses/by/4.0/legalcode
+The full legal code is in LICENSES/CC-BY-4.0.txt.
+
+Modified, by the k2-fsa / sherpa-onnx project: the checkpoint was
+exported to ONNX with sherpa-onnx's
+scripts/nemo/canary/export_onnx_180m_flash.py and the weights were
+quantized to 8 bits with ONNX Runtime, without retraining. Source:
+https://huggingface.co/csukuangfj/sherpa-onnx-nemo-canary-180m-flash-en-es-de-fr-int8
+(commit 9077164e0d3dd1d5353743e89ceaa1d3a770838c), unchanged.
+
+Provided as-is, without warranties of any kind. See Section 5 of the
+license.
+
+------------------------------------------------------------------------
+
+Nemotron 3.5 ASR Streaming 0.6B, 1120 ms chunk, int8 ONNX (release v5)
+
+  nemotron-3-5-streaming-1120ms-encoder.int8.onnx
+  nemotron-3-5-streaming-1120ms-decoder.int8.onnx
+  nemotron-3-5-streaming-1120ms-joiner.int8.onnx
+  nemotron-3-5-streaming-1120ms-tokens.txt
+
+nemotron-3.5-asr-streaming-0.6b was created by NVIDIA:
+https://huggingface.co/nvidia/nemotron-3.5-asr-streaming-0.6b
+No copyright notice is supplied with the model.
+
+License: OpenMDW License Agreement, version 1.1.
+https://openmdw.ai/license/1-1/
+A copy of the agreement is in LICENSES/OpenMDW-1.1.txt.
+
+Modified, by the k2-fsa / sherpa-onnx project: the checkpoint was
+exported to ONNX with sherpa-onnx's
+scripts/nemo/nemotron-3.5-asr-streaming-0.6b/export_onnx.py at a fixed
+1120 ms chunk and the weights were quantized to int8 with ONNX Runtime,
+without retraining. Source:
+https://huggingface.co/csukuangfj2/sherpa-onnx-nemotron-3.5-asr-streaming-0.6b-1120ms-int8-2026-06-11
+(commit cba1c96ca5ef0e8393b50584ae153a79145dc492), unchanged.
+
+------------------------------------------------------------------------
+
+Whisper large-v3-turbo, int8 ONNX (release v6)
+
+  whisper-turbo-turbo-encoder.int8.onnx
+  whisper-turbo-turbo-decoder.int8.onnx
+  whisper-turbo-turbo-tokens.txt
+
+Whisper was created by OpenAI: https://github.com/openai/whisper
+Copyright (c) 2022 OpenAI
+
+License: MIT. The license, with this copyright notice, is in
+LICENSES/MIT-openai-whisper.txt (LICENSE of openai/whisper, commit
+6e3be77e).
+
+Modified, by the k2-fsa / sherpa-onnx project: OpenAI's large-v3-turbo
+checkpoint was exported to ONNX with sherpa-onnx's
+scripts/whisper/export-onnx.py and the weights were quantized to int8
+with ONNX Runtime, without retraining. Source:
+https://huggingface.co/csukuangfj/sherpa-onnx-whisper-turbo
+(commit 2ca6ff69fc878651b770880507669577ac41c2ff), unchanged.
+
+------------------------------------------------------------------------
+
+Granite Speech 5.0 470M TurboCTC, int8 ONNX (release v7)
+
+  granite-speech-5-470m-model_int8.onnx
+  granite-speech-5-470m-tokenizer.json
+
+granite-speech-5.0-470m-turboctc was created by the IBM Granite Speech
+Team: https://huggingface.co/ibm-granite/granite-speech-5.0-470m-turboctc
+No copyright notice is supplied with the model.
+
+License: Apache License 2.0. The text is in LICENSES/Apache-2.0.txt.
+
+Modified, by qwertz92: IBM's checkpoint was exported to ONNX, with two
+unfold operations replaced by mathematically equivalent avg_pool1d ones,
+and the weights were quantized to int8 with ONNX Runtime, without
+retraining. granite-speech-5-470m-tokenizer.json is IBM's tokenizer.json,
+unchanged. Source:
+https://huggingface.co/qwertz92/granite-speech-5.0-470m-turboctc-onnx
+(commit e6e3b4d6f590ac51a05f25028b53591d4b260786; onnx/model_int8.onnx
+and tokenizer.json), unchanged.
+
+------------------------------------------------------------------------
+
+Qwen3-ASR 0.6B, int8 ONNX (release v8)
+
+  qwen3-asr-0-6b-conv_frontend.onnx
+  qwen3-asr-0-6b-encoder.int8.onnx
+  qwen3-asr-0-6b-decoder.int8.onnx
+  qwen3-asr-0-6b-vocab.json
+  qwen3-asr-0-6b-merges.txt
+  qwen3-asr-0-6b-tokenizer_config.json
+
+Qwen3-ASR 0.6B was created by Alibaba Cloud (the Qwen team):
+https://huggingface.co/Qwen/Qwen3-ASR-0.6B
+Copyright 2026 Alibaba Cloud (LICENSE of https://github.com/QwenLM/Qwen3-ASR)
+Its tokenizer is the Qwen3-0.6B language model's:
+https://huggingface.co/Qwen/Qwen3-0.6B
+Copyright 2024 Alibaba Cloud (LICENSE of Qwen/Qwen3-0.6B)
+
+License: Apache License 2.0. The text is in LICENSES/Apache-2.0.txt.
+
+Modified, by Wasser1462 (https://github.com/Wasser1462/Qwen3-ASR-onnx,
+published at https://modelscope.cn/models/zengshuishui/Qwen3-ASR-onnx):
+the checkpoint was exported to three ONNX graphs (conv frontend,
+encoder, decoder) and the weights were quantized to int8 with ONNX
+Runtime, without retraining. The three tokenizer files are unchanged.
+The k2-fsa / sherpa-onnx project re-hosts these files byte for byte.
+Source: https://huggingface.co/csukuangfj2/sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25
+(commit 68818b2313fe77bd06f6a7c5068ff3ef59d02b8a; vocab.json, merges.txt
+and tokenizer_config.json from its tokenizer/ folder), unchanged.
