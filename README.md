@@ -7,6 +7,9 @@ user installs that engine and checks its SHA-256 before keeping it.
 Release `v1` holds our own conversion of Parakeet Ultra. Releases `v2` to
 `v8` re-host third-party int8 ONNX exports unchanged: each file is
 byte-identical to the source named for it, with the same SHA-256.
+Releases `v9` to `v11` hold the model files of `v2`, `v5` and `v8`
+re-saved in ONNX Runtime's pre-optimised ORT format (`.ort`), which the
+app loads faster. Their tokenizer files are the same bytes as before.
 
 This repository has no single license. Each asset keeps its own license,
 listed below and in [NOTICE](NOTICE). License texts are in
@@ -181,14 +184,69 @@ and re-hosted by the k2-fsa / sherpa-onnx project. Source:
 commit `68818b2313fe77bd06f6a7c5068ff3ef59d02b8a` (the three tokenizer
 files from its `tokenizer/` folder), unchanged.
 
+### v9: Parakeet TDT_CTC 110M (English), int8, ORT format
+
+| Asset | Bytes | SHA-256 | License |
+|---|---|---|---|
+| `parakeet-tdt-110m-en-encoder.int8.ort` | 131,508,352 | `fe0bab3304a93108bea8f5a63b64f4b422679a95da815ec400ecb4fd704a404f` | CC-BY-4.0 |
+| `parakeet-tdt-110m-en-decoder.int8.ort` | 3,962,088 | `6486b1f9ba5555985e1dd5c1c61a17c7267a73054116676b367ca4d30a15fe5a` | CC-BY-4.0 |
+| `parakeet-tdt-110m-en-joiner.int8.ort` | 1,418,128 | `87ac4bf5573c73887d33d1c1532451f328597d79b3e63c4874e2baae6d187bb2` | CC-BY-4.0 |
+| `parakeet-tdt-110m-en-tokens.txt` | 9,953 | `450e56bd2f036fe5b6aa821865838cc5aa9d8b0106134ce9a9ba0664abe6cd10` | CC-BY-4.0 |
+
+`v2`'s encoder, decoder and joiner, converted to the ORT format (see
+"How the ORT files were made" below). `tokens.txt` is `v2`'s, unchanged.
+
+### v10: Nemotron 3.5 ASR Streaming 0.6B (1120 ms chunk), int8, ORT format
+
+| Asset | Bytes | SHA-256 | License |
+|---|---|---|---|
+| `nemotron-3-5-streaming-1120ms-encoder.int8.ort` | 657,662,096 | `804929d57aa6a661fee7ff9ea6eeecb4c544b995cc40c1338b496c4931737eb6` | OpenMDW-1.1 |
+| `nemotron-3-5-streaming-1120ms-decoder.int8.ort` | 14,986,960 | `6159f5af06499469a32d47e57115a8de37e4708c5e9ed61bf694926df50b3571` | OpenMDW-1.1 |
+| `nemotron-3-5-streaming-1120ms-joiner.int8.ort` | 9,511,160 | `9cf237a2533855cb987b1d4a4d12379834cd1749c25e6d63bbac353c7a7bd3df` | OpenMDW-1.1 |
+| `nemotron-3-5-streaming-1120ms-tokens.txt` | 131,440 | `729cc103155bafa785f9cd45746cd41cabe97eab7182fc04d594129587958f8a` | OpenMDW-1.1 |
+
+`v5`'s encoder, decoder and joiner, converted to the ORT format.
+`tokens.txt` is `v5`'s, unchanged.
+
+### v11: Qwen3-ASR 0.6B, int8, ORT format
+
+| Asset | Bytes | SHA-256 | License |
+|---|---|---|---|
+| `qwen3-asr-0-6b-conv_frontend.ort` | 44,167,416 | `a4e120496b7b66f452303121def15c3204c4042af2523e08dad7486fec216f71` | Apache-2.0 |
+| `qwen3-asr-0-6b-encoder.int8.ort` | 182,684,104 | `3cbaab59db7ec7900a57aee077fd9213fa48624ca8205bfba289ba76740bd750` | Apache-2.0 |
+| `qwen3-asr-0-6b-decoder.int8.ort` | 756,556,392 | `2c56875df87054decd46e08eff5f46920960c989ddeb641becd6809d34392cff` | Apache-2.0 |
+| `qwen3-asr-0-6b-vocab.json` | 2,776,833 | `ca10d7e9fb3ed18575dd1e277a2579c16d108e32f27439684afa0e10b1440910` | Apache-2.0 |
+| `qwen3-asr-0-6b-merges.txt` | 1,671,853 | `8831e4f1a044471340f7c0a83d7bd71306a5b867e95fd870f74d0c5308a904d5` | Apache-2.0 |
+| `qwen3-asr-0-6b-tokenizer_config.json` | 12,487 | `4942d005604266809309cabc9f4e9cb89ce855d59b14681fdc0e1cc62ea26c4c` | Apache-2.0 |
+
+`v8`'s conv frontend, encoder and decoder, converted to the ORT format.
+The three tokenizer files are `v8`'s, unchanged.
+
+### How the ORT files were made
+
+Each `.onnx` file named above (checked by SHA-256) was converted with
+ONNX Runtime 1.28.0's own tool:
+
+```
+python -m onnxruntime.tools.convert_onnx_models_to_ort <dir> --optimization_style Fixed --target_platform arm
+```
+
+The tool applies ONNX Runtime's graph optimisations for ARM CPUs and saves
+the result in ONNX Runtime's flatbuffer format. Weights are not
+retrained or re-quantised, and the custom metadata sherpa-onnx reads is
+kept. On the same audio, the app's transcripts from the `.ort` and
+`.onnx` files are identical. The tool is not byte-deterministic, so a
+new run gives files with other SHA-256 values. The files were checked
+with ONNX Runtime 1.28.0, the version the app uses.
+
 ## License
 
 | Release | License | Text |
 |---|---|---|
-| v1, v2, v3, v4 | Creative Commons Attribution 4.0 International (CC BY 4.0) | [LICENSES/CC-BY-4.0.txt](LICENSES/CC-BY-4.0.txt) |
-| v5 | OpenMDW License Agreement, version 1.1 | [LICENSES/OpenMDW-1.1.txt](LICENSES/OpenMDW-1.1.txt) |
+| v1, v2, v3, v4, v9 | Creative Commons Attribution 4.0 International (CC BY 4.0) | [LICENSES/CC-BY-4.0.txt](LICENSES/CC-BY-4.0.txt) |
+| v5, v10 | OpenMDW License Agreement, version 1.1 | [LICENSES/OpenMDW-1.1.txt](LICENSES/OpenMDW-1.1.txt) |
 | v6 | MIT License, Copyright (c) 2022 OpenAI | [LICENSES/MIT-openai-whisper.txt](LICENSES/MIT-openai-whisper.txt) |
-| v7, v8 | Apache License 2.0 | [LICENSES/Apache-2.0.txt](LICENSES/Apache-2.0.txt) |
+| v7, v8, v11 | Apache License 2.0 | [LICENSES/Apache-2.0.txt](LICENSES/Apache-2.0.txt) |
 
 Attribution, copyright notices and the list of changes for each release
 are in [NOTICE](NOTICE).

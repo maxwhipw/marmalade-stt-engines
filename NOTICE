@@ -8,6 +8,9 @@ byte-identical to the file named as its source, with the same SHA-256.
 The changes listed for them were made upstream, by the project that
 exported the model, not here.
 
+Releases v9 to v11 hold the model files of v2, v5 and v8 converted here
+to ONNX Runtime's ORT format; their other files are unchanged.
+
 ------------------------------------------------------------------------
 
 Parakeet Ultra, int8 ONNX (release v1)
@@ -220,3 +223,85 @@ The k2-fsa / sherpa-onnx project re-hosts these files byte for byte.
 Source: https://huggingface.co/csukuangfj2/sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25
 (commit 68818b2313fe77bd06f6a7c5068ff3ef59d02b8a; vocab.json, merges.txt
 and tokenizer_config.json from its tokenizer/ folder), unchanged.
+
+------------------------------------------------------------------------
+
+Parakeet TDT_CTC 110M (English), int8, ORT format (release v9)
+
+  parakeet-tdt-110m-en-encoder.int8.ort
+  parakeet-tdt-110m-en-decoder.int8.ort
+  parakeet-tdt-110m-en-joiner.int8.ort
+  parakeet-tdt-110m-en-tokens.txt
+
+parakeet-tdt_ctc-110m was created by NVIDIA NeMo and Suno.ai:
+https://huggingface.co/nvidia/parakeet-tdt_ctc-110m
+No copyright notice is supplied with the model.
+
+License: Creative Commons Attribution 4.0 International (CC BY 4.0).
+https://creativecommons.org/licenses/by/4.0/legalcode
+The full legal code is in LICENSES/CC-BY-4.0.txt.
+
+Modified, here: the encoder, decoder and joiner of release v2 (above)
+were converted to ONNX Runtime's ORT format with ONNX Runtime 1.28.0
+(python -m onnxruntime.tools.convert_onnx_models_to_ort,
+--optimization_style Fixed --target_platform arm), which applies ONNX
+Runtime's graph optimisations and changes the file format, without
+retraining or re-quantising. parakeet-tdt-110m-en-tokens.txt is release
+v2's, unchanged. The upstream changes are those listed for release v2.
+
+Provided as-is, without warranties of any kind. See Section 5 of the
+license.
+
+------------------------------------------------------------------------
+
+Nemotron 3.5 ASR Streaming 0.6B, 1120 ms chunk, int8, ORT format (release v10)
+
+  nemotron-3-5-streaming-1120ms-encoder.int8.ort
+  nemotron-3-5-streaming-1120ms-decoder.int8.ort
+  nemotron-3-5-streaming-1120ms-joiner.int8.ort
+  nemotron-3-5-streaming-1120ms-tokens.txt
+
+nemotron-3.5-asr-streaming-0.6b was created by NVIDIA:
+https://huggingface.co/nvidia/nemotron-3.5-asr-streaming-0.6b
+No copyright notice is supplied with the model.
+
+License: OpenMDW License Agreement, version 1.1.
+https://openmdw.ai/license/1-1/
+A copy of the agreement is in LICENSES/OpenMDW-1.1.txt.
+
+Modified, here: the encoder, decoder and joiner of release v5 (above)
+were converted to ONNX Runtime's ORT format with ONNX Runtime 1.28.0
+(python -m onnxruntime.tools.convert_onnx_models_to_ort,
+--optimization_style Fixed --target_platform arm), which applies ONNX
+Runtime's graph optimisations and changes the file format, without
+retraining or re-quantising. nemotron-3-5-streaming-1120ms-tokens.txt is
+release v5's, unchanged. The upstream changes are those listed for
+release v5.
+
+------------------------------------------------------------------------
+
+Qwen3-ASR 0.6B, int8, ORT format (release v11)
+
+  qwen3-asr-0-6b-conv_frontend.ort
+  qwen3-asr-0-6b-encoder.int8.ort
+  qwen3-asr-0-6b-decoder.int8.ort
+  qwen3-asr-0-6b-vocab.json
+  qwen3-asr-0-6b-merges.txt
+  qwen3-asr-0-6b-tokenizer_config.json
+
+Qwen3-ASR 0.6B was created by Alibaba Cloud (the Qwen team):
+https://huggingface.co/Qwen/Qwen3-ASR-0.6B
+Copyright 2026 Alibaba Cloud (LICENSE of https://github.com/QwenLM/Qwen3-ASR)
+Its tokenizer is the Qwen3-0.6B language model's:
+https://huggingface.co/Qwen/Qwen3-0.6B
+Copyright 2024 Alibaba Cloud (LICENSE of Qwen/Qwen3-0.6B)
+
+License: Apache License 2.0. The text is in LICENSES/Apache-2.0.txt.
+
+Modified, here: the conv frontend, encoder and decoder of release v8
+(above) were converted to ONNX Runtime's ORT format with ONNX Runtime
+1.28.0 (python -m onnxruntime.tools.convert_onnx_models_to_ort,
+--optimization_style Fixed --target_platform arm), which applies ONNX
+Runtime's graph optimisations and changes the file format, without
+retraining or re-quantising. The three tokenizer files are release v8's,
+unchanged. The upstream changes are those listed for release v8.
